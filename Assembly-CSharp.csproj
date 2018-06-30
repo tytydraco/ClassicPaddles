@@ -63,7 +63,6 @@
   <ItemGroup>
     <Compile Include="Assets\BallBehavior.cs" />
     <Compile Include="Assets\GameScript.cs" />
-    <None Include="Assets\Pixel Font - Tripfive\_README.txt" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>C:/Users/Draco/Documents/ClassicPaddles/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>

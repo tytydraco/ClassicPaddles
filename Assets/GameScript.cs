@@ -11,6 +11,7 @@ public class GameScript : MonoBehaviour
     public Text score1;
     public Text score2;
 
+    public float resizeAnimSpeed = 5;
     public int ballSpeed = 7;
     public int paddleSpeed = 7;
     public int maxPaddleXForce = 15;
@@ -23,6 +24,8 @@ public class GameScript : MonoBehaviour
 
     private Vector2 screenSize;
     private bool shrinking;
+    private float ballScale;
+    private float scoreScale;
 
     // Use this for initialization
     void Start()
@@ -30,6 +33,10 @@ public class GameScript : MonoBehaviour
         // pre-game world setups
         setupWorldBounds();
         resetBall(ball);
+
+        // set the local variables based on the Unity Editor
+        ballScale = ball.transform.localScale.x;
+        scoreScale = score1.transform.localScale.x;
 
         // initially hide the score counter
         score1.enabled = false;
@@ -52,14 +59,14 @@ public class GameScript : MonoBehaviour
         // handle animations (shrinking and growing)
         if (shrinking)
         {
-            gradResize(ball, 0, 5);
-            gradResize(score1, 1.5f, 5);
-            gradResize(score2, 1.5f, 5);
+            gradResize(ball, 0, resizeAnimSpeed);
+            gradResize(score1, scoreScale, resizeAnimSpeed);
+            gradResize(score2, scoreScale, resizeAnimSpeed);
         } else
         {
-            gradResize(ball, 0.5f, 5);
-            gradResize(score1, 0, 5);
-            gradResize(score2, 0, 5);
+            gradResize(ball, ballScale, resizeAnimSpeed);
+            gradResize(score1, 0, resizeAnimSpeed);
+            gradResize(score2, 0, resizeAnimSpeed);
         }
         
         handleMovement();
@@ -190,15 +197,15 @@ public class GameScript : MonoBehaviour
         // apply score rotation to optimize viewing for each viewer
         if (activePlayers == 2)
         {
-            score1.transform.rotation = new Quaternion(0, 0, 0, 0);
-            score2.transform.rotation = new Quaternion(180, 0, 0, 0);
+            score1.transform.rotation = Quaternion.Euler(0, 0, 0);
+            score2.transform.rotation = Quaternion.Euler(180, 180, 0);
         } else if (activePlayers == 1 && !player1IsBottom)
         {
-            score1.transform.rotation = new Quaternion(180, 0, 0, 0);
-            score2.transform.rotation = new Quaternion(180, 0, 0, 0);
+            score1.transform.rotation = Quaternion.Euler(180, 180, 0);
+            score2.transform.rotation = Quaternion.Euler(180, 180, 0);
         } else {
-            score1.transform.rotation = new Quaternion(0, 0, 0, 0);
-            score2.transform.rotation = new Quaternion(0, 0, 0, 0);
+            score1.transform.rotation = Quaternion.Euler(0, 0, 0);
+            score2.transform.rotation = Quaternion.Euler(0, 0, 0);
         }
 
         yield return new WaitForSeconds(1);
